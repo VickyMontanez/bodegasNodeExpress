@@ -1,7 +1,7 @@
--- Active: 1687910467964@@localhost@3306@db_prueba_backend_sql
+-- Active: 1688557522293@@localhost@3306@db_prueba_backend_sql
 
 CREATE DATABASE db_prueba_backend_sql;
-
+DROP DATABASE db_prueba_backend_sql;
 USE db_prueba_backend_sql;
 
 CREATE TABLE
@@ -12,7 +12,6 @@ CREATE TABLE
         `updated_at` TIMESTAMP,
         `deleted_at` TIMESTAMP
     );
-
 
 CREATE TABLE
     `inventarios`(
@@ -146,3 +145,13 @@ ALTER TABLE `productos` ADD CONSTRAINT productos_user_fk FOREIGN KEY (update_by)
 ALTER TABLE `users`
     ADD PRIMARY KEY(`id`),
     ADD KEY `email` (`email`);
+
+/* ------------------------------------------ENDPOINTS-------------------------------------- */
+
+/* Ordenar bodegas alfabeticamente */
+SELECT * FROM `bodegas` ORDER BY nombre ASC;
+
+INSERT INTO `bodegas`(`id`, `nombre`, `descripcion`, `estado`, `created_by`, `update_by`, `created_at`, `updated_at`, `deleted_at`) VALUES (`:Id`, `:Nombre`, `:Descripcion`, `:Estado`, `:Created_by`, `:Update_by`, `:Created_at`, `:Updated_at`, `:Deleted_at`);
+SELECT * FROM empleados WHERE sexo = 'hombre' ORDER BY antiguedad DESC, edad DESC;
+
+SELECT * FROM `productos`;

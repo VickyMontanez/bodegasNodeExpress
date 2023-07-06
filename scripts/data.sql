@@ -1,3 +1,4 @@
+-- Active: 1688557522293@@localhost@3306@db_prueba_backend_sql
 
 INSERT INTO `bodegas` (`id`, `nombre`, `id_responsable`, `estado`, `created_by`, `update_by`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (11, 'bodega0', 16, 1, 16, NULL, '2022-06-02 15:33:48', NULL, NULL),

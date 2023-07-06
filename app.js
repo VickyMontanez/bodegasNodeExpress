@@ -1,14 +1,17 @@
-import mysql from "mysql2";
-import { Router } from "express";
+import express from "express";
 import dotenv from "dotenv";
+import bodegasStorage from "./routers/bodegas.js";
+
+const appExpress = express();
 dotenv.config();
 
-const connection = mysql.createPool(JSON.parse(process.env.MY_CONNECT));;
+appExpress.use(express.json());
+appExpress.use('/bodegas', bodegasStorage);
 
-connection.getConnection((error)=>{
-    if(error){
-        console.error("Error al conectar con la base de datos")
-    } else {
-        console.log("Conectada a la base de datos");
-    }
-})
+/* Se levanta el servidor */
+const config = JSON.parse(process.env.MY_CONFIG);
+appExpress.listen(config, ()=>{
+    console.log(`http://${config.hostname}:${config.port}`);
+});
+
+
