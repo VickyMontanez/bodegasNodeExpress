@@ -1,15 +1,11 @@
 import mysql from "mysql2";
 import { Router } from "express";
+import dotenv from "dotenv";
+dotenv.config();
 
-const connection = mysql.createConnection({
-    host:"localhost",
-    user:"campus",
-    database:"db_prueba_backend_sql",
-    password:"campus2023", 
-    port:3306
-});
+const connection = mysql.createPool(JSON.parse(process.env.MY_CONNECT));;
 
-connection.connect((error)=>{
+connection.getConnection((error)=>{
     if(error){
         console.error("Error al conectar con la base de datos")
     } else {
