@@ -161,3 +161,10 @@ INSERT INTO `bodegas`(`id`, `nombre`, `estado`, `created_at`, `updated_at`, `del
 SELECT * FROM `productos`;
 /* Obtener el total de cada producto  */
 SELECT p.id, p.nombre, SUM(i.cantidad) AS Total FROM productos p JOIN inventarios i ON p.id = i.id GROUP BY p.id, p.nombre ORDER BY Total DESC;
+
+/* Insertar un producto en la tabla  */
+INSERT INTO productos (id, nombre, descripcion, estado, created_at, updated_at, deleted_at, created_by, update_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+/* Seleccionar el ultimo id de la tabla bodegas */
+SELECT MAX(id) AS lastId FROM bodegas;
+/* Insertar valores default en la tabla inventarios  */
+INSERT INTO inventarios (id_bodega, id_producto, id, cantidad, created_by, update_by, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW());
