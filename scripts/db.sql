@@ -157,4 +157,7 @@ ALTER TABLE `bodegas` MODIFY created_at DATETIME;
 /* Insertar nueva data en la tabla bodegas */
 INSERT INTO `bodegas`(`id`, `nombre`, `estado`, `created_at`, `updated_at`, `deleted_at`,`id_responsable`, `created_by`, `update_by`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
 
+/* Seleccionar todos la data de la tabla productos */
 SELECT * FROM `productos`;
+/* Obtener el total de cada producto  */
+SELECT p.id, p.nombre, SUM(i.cantidad) AS Total FROM productos p JOIN inventarios i ON p.id = i.id GROUP BY p.id, p.nombre ORDER BY Total DESC;
