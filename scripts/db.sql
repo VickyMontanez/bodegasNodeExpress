@@ -27,10 +27,11 @@ CREATE TABLE
         `id` BIGINT(20) UNSIGNED NOT NULL,
         `nombre` VARCHAR(225) NOT NULL,
         `estado` TINYINT(4) NOT NULL,
-        `created_at` TIMESTAMP NOT NULL,
+        `created_at` TIMESTAMP,
         `updated_at` TIMESTAMP,
         `deleted_at` TIMESTAMP
     );
+
 CREATE TABLE
     `productos`(
         `id` BIGINT(20) UNSIGNED NOT NULL,
@@ -151,7 +152,9 @@ ALTER TABLE `users`
 /* Ordenar bodegas alfabeticamente */
 SELECT * FROM `bodegas` ORDER BY nombre ASC;
 
-INSERT INTO `bodegas`(`id`, `nombre`, `descripcion`, `estado`, `created_by`, `update_by`, `created_at`, `updated_at`, `deleted_at`) VALUES (`:Id`, `:Nombre`, `:Descripcion`, `:Estado`, `:Created_by`, `:Update_by`, `:Created_at`, `:Updated_at`, `:Deleted_at`);
-SELECT * FROM empleados WHERE sexo = 'hombre' ORDER BY antiguedad DESC, edad DESC;
+/* Modificar created_at en la taba bodegas  */
+ALTER TABLE `bodegas` MODIFY created_at DATETIME;
+/* Insertar nueva data en la tabla bodegas */
+INSERT INTO `bodegas`(`id`, `nombre`, `estado`, `created_at`, `updated_at`, `deleted_at`,`id_responsable`, `created_by`, `update_by`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
 
 SELECT * FROM `productos`;
