@@ -67,7 +67,7 @@ __decorate([
         if (Math.floor(value) && typeof value == "number")
             return Math.floor(value);
         else
-            throw { status: 400, message: "Los datos del Creador no cumple con los párametros establecidos" };
+            throw { status: 400, message: "Los datos del created_by no cumple con los párametros establecidos" };
     }, { toClassOnly: true }),
     __metadata("design:type", Number)
 ], inventarios.prototype, "createdBy", void 0);
@@ -77,7 +77,7 @@ __decorate([
         if (Math.floor(value) && typeof value == "number")
             return Math.floor(value);
         else
-            throw { status: 400, message: "Los datos del Actualizador no cumple con los párametros establecidos" };
+            throw { status: 400, message: "Los datos del update_by no cumple con los párametros establecidos" };
     }, { toClassOnly: true }),
     __metadata("design:type", Number)
 ], inventarios.prototype, "updateBy", void 0);

@@ -34,14 +34,14 @@ export class inventarios {
     @Transform(({ value }) => {
         if(Math.floor(value) && typeof value == "number")
         return Math.floor(value);
-        else throw {status: 400, message: "Los datos del Creador no cumple con los párametros establecidos"}}, { toClassOnly: true })
+        else throw {status: 400, message: "Los datos del created_by no cumple con los párametros establecidos"}}, { toClassOnly: true })
     createdBy: number;
 
     @Expose({ name: 'update_by' })
     @Transform(({ value }) => {
         if(Math.floor(value) && typeof value == "number")
-        return Math.floor(value);
-        else throw {status: 400, message: "Los datos del Actualizador no cumple con los párametros establecidos"}}, { toClassOnly: true })
+        return Math.floor(value); 
+        else throw {status: 400, message: "Los datos del update_by no cumple con los párametros establecidos"}}, { toClassOnly: true })
     updateBy: number;
 
     @Expose({ name: 'created_at' })
