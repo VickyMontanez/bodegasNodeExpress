@@ -3,7 +3,8 @@ import dotenv from "dotenv";
 import bodegasStorage from "./routers/bodegas.js";
 import productosStorage from "./routers/productos.js";
 import storageInventarios from "./routers/inventarios.js";
-import historialesStorage from "./routers/historiales.js"
+import historialesStorage from "./routers/historiales.js";
+import usersStorage from "./routers/users.js";
 
 import "reflect-metadata";
 import {plainToClass} from "class-transformer";
@@ -17,6 +18,7 @@ appExpress.use('/bodegas', bodegasStorage);
 appExpress.use('/productos', productosStorage);
 appExpress.use('/inventarios', storageInventarios);
 appExpress.use('/historiales', historialesStorage);
+appExpress.use('/users', usersStorage);
 
 /* Se levanta el servidor */
 const config = JSON.parse(process.env.MY_CONFIG);
