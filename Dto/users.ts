@@ -10,15 +10,15 @@ export class users {
     ID: number;
 
     @Expose({ name: 'nombre' })
-    @Transform(({value})=>{ if(/^[a-z A-z]*$/.test(value)) return value ; else throw {status:400, message: "Los datos del nombre no cumplen con los párametros establecidos"}})
+    @Transform(({value})=>{ if(/^[A-Z][a-zA-Z '.-]*[A-Za-z][^-]\w+[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]/.test(value)) return value ; else throw {status:400, message: "Los datos del nombre no cumplen con los párametros establecidos"}})
     nom_com : string;
 
     @Expose({ name: 'email' })
-    @Transform(({value})=>{ if(/\$+@\$+\.\$+/.test(value)) return value ; else throw {status:400, message: "Los datos del email no cumplen con los párametros establecidos"}})
+    @Transform(({value})=>{ if( /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value)) return value ; else throw {status:400, message: "Los datos del email no cumplen con los párametros establecidos"}})
     ema: string;
 
     @Expose({ name: 'verify_email' })
-    @Transform(({value})=>{ if(/\$+@\$+\.\$+/.test(value)) return value ; else throw {status:400, message: "Los datos del email no cumplen con los párametros establecidos"}})
+    @Transform(({value})=>{ if( /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value)) return value ; else throw {status:400, message: "Los datos del email no cumplen con los párametros establecidos"}})
     ema_vrf: string;
 
     @Expose({ name: 'estado' })
@@ -43,11 +43,15 @@ export class users {
     updateBy: number;
 
     @Expose({ name: 'foto' })
-    @Type(() => String)
+    @Transform(({value})=>{ 
+        if( /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/.test(value)) return value ;
+        else throw {status:400, message: "Los datos de la foto no cumplen con los párametros establecidos"}})
     photo: string;
 
     @Expose({ name: 'contraseña' })
-    @Type(() => String)
+    @Transform(({value})=>{ 
+        if( /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/.test(value)) return value ;
+        else throw {status:400, message: "Los datos de la contraseña no cumplen con los párametros establecidos"}})
     pswd: string;
 
     @Expose({ name: 'created_at' })

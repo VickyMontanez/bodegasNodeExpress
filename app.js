@@ -30,14 +30,14 @@ appExpress.listen(config, ()=>{
 
 let json = {
     id: 12,
-    nombre: "aaa",
+    nombre: "Vicky Vanessa Montañez Molina",
     email: "vmontanez707@gmail.com",
     verify_email: "vmontanez707@gmail.com",
     estado: 1,
     created_by: 3,
     update_by: 5,
-    foto: "aaaa",
-    contraseña: "aaaa",
+    foto: "https://f/_c265d.jpg",
+    contraseña: "A235674Gh",
     created_at: null,
     updated_at: null,
     deleted_at: null

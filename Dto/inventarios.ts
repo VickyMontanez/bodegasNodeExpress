@@ -3,27 +3,45 @@ import { Expose, Type, Transform } from 'class-transformer';
 export class inventarios {
 
     @Expose({ name: 'id' })
-    @Transform(({ value }) => parseInt(value), { toClassOnly: true })
+    @Transform(({ value }) => {
+        if(Math.floor(value) && typeof value == "number")
+        return Math.floor(value);
+        else throw {status: 400, message: "Los datos del Id no cumple con los párametros establecidos"}}, { toClassOnly: true })
     ID: number;
 
     @Expose({ name: 'cantidad' })
-    @Type(() => String)
+    @Transform(({ value }) => {
+        if(Math.floor(value) && typeof value == "number")
+        return Math.floor(value);
+        else throw {status: 400, message: "Los datos de la cantidad no cumple con los párametros establecidos"}}, { toClassOnly: true })
     cantidad : number;
 
     @Expose({ name: 'bodega' })
-    @Transform(({ value }) => parseInt(value), { toClassOnly: true })
+    @Transform(({ value }) => {
+        if(Math.floor(value) && typeof value == "number")
+        return Math.floor(value);
+        else throw {status: 400, message: "Los datos de la bodega no cumple con los párametros establecidos"}}, { toClassOnly: true })
     id_bodega: number;
 
     @Expose({ name: 'producto' })
-    @Transform(({ value }) => parseInt(value), { toClassOnly: true })
+    @Transform(({ value }) => {
+        if(Math.floor(value) && typeof value == "number")
+        return Math.floor(value);
+        else throw {status: 400, message: "Los datos del producto no cumple con los párametros establecidos"}}, { toClassOnly: true })
     id_producto: number;
 
     @Expose({ name: 'created_by' })
-    @Transform(({ value }) => parseInt(value), { toClassOnly: true })
+    @Transform(({ value }) => {
+        if(Math.floor(value) && typeof value == "number")
+        return Math.floor(value);
+        else throw {status: 400, message: "Los datos del Creador no cumple con los párametros establecidos"}}, { toClassOnly: true })
     createdBy: number;
 
     @Expose({ name: 'update_by' })
-    @Transform(({ value }) => parseInt(value), { toClassOnly: true })
+    @Transform(({ value }) => {
+        if(Math.floor(value) && typeof value == "number")
+        return Math.floor(value);
+        else throw {status: 400, message: "Los datos del Actualizador no cumple con los párametros establecidos"}}, { toClassOnly: true })
     updateBy: number;
 
     @Expose({ name: 'created_at' })

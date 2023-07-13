@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Expose, Type, Transform } from 'class-transformer';
+import { Expose, Transform } from 'class-transformer';
 export class users {
     constructor(ID, nom_com, ema, ema_vrf, estado, createdBy, updateBy, photo, pswd, createdAt, updatedAt, deletedAt) {
         this.ID = ID;
@@ -36,7 +36,7 @@ __decorate([
 ], users.prototype, "ID", void 0);
 __decorate([
     Expose({ name: 'nombre' }),
-    Transform(({ value }) => { if (/^[a-z A-z]*$/.test(value))
+    Transform(({ value }) => { if (/^[A-Z][a-zA-Z '.-]*[A-Za-z][^-]\w+[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]/.test(value))
         return value;
     else
         throw { status: 400, message: "Los datos del nombre no cumplen con los párametros establecidos" }; }),
@@ -44,7 +44,7 @@ __decorate([
 ], users.prototype, "nom_com", void 0);
 __decorate([
     Expose({ name: 'email' }),
-    Transform(({ value }) => { if (/\$+@\$+\.\$+/.test(value))
+    Transform(({ value }) => { if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value))
         return value;
     else
         throw { status: 400, message: "Los datos del email no cumplen con los párametros establecidos" }; }),
@@ -52,7 +52,7 @@ __decorate([
 ], users.prototype, "ema", void 0);
 __decorate([
     Expose({ name: 'verify_email' }),
-    Transform(({ value }) => { if (/\$+@\$+\.\$+/.test(value))
+    Transform(({ value }) => { if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value))
         return value;
     else
         throw { status: 400, message: "Los datos del email no cumplen con los párametros establecidos" }; }),
@@ -90,12 +90,22 @@ __decorate([
 ], users.prototype, "updateBy", void 0);
 __decorate([
     Expose({ name: 'foto' }),
-    Type(() => String),
+    Transform(({ value }) => {
+        if (/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/.test(value))
+            return value;
+        else
+            throw { status: 400, message: "Los datos de la foto no cumplen con los párametros establecidos" };
+    }),
     __metadata("design:type", String)
 ], users.prototype, "photo", void 0);
 __decorate([
     Expose({ name: 'contraseña' }),
-    Type(() => String),
+    Transform(({ value }) => {
+        if (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/.test(value))
+            return value;
+        else
+            throw { status: 400, message: "Los datos de la contraseña no cumplen con los párametros establecidos" };
+    }),
     __metadata("design:type", String)
 ], users.prototype, "pswd", void 0);
 __decorate([

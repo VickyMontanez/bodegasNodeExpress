@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Expose, Type, Transform } from 'class-transformer';
+import { Expose, Transform } from 'class-transformer';
 export class bodegas {
     constructor(ID, nom_user, responsableID, estado_user, createdBy, updateBy, createdAt, updatedAt, deletedAt) {
         this.ID = ID;
@@ -23,32 +23,60 @@ export class bodegas {
 }
 __decorate([
     Expose({ name: 'id' }),
-    Transform(({ value }) => parseInt(value), { toClassOnly: true }),
+    Transform(({ value }) => {
+        if (Math.floor(value) && typeof value == "number")
+            return Math.floor(value);
+        else
+            throw { status: 400, message: "Los datos del Id no cumple con los párametros establecidos" };
+    }, { toClassOnly: true }),
     __metadata("design:type", Number)
 ], bodegas.prototype, "ID", void 0);
 __decorate([
     Expose({ name: 'nombre' }),
-    Type(() => String),
+    Transform(({ value }) => { if (/^[A-Z][a-zA-Z '.-]*[A-Za-z][^-]\w+[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]/.test(value))
+        return value;
+    else
+        throw { status: 400, message: "Los datos del nombre no cumplen con los párametros establecidos" }; }),
     __metadata("design:type", String)
 ], bodegas.prototype, "nom_user", void 0);
 __decorate([
     Expose({ name: 'id_responsable' }),
-    Transform(({ value }) => parseInt(value), { toClassOnly: true }),
+    Transform(({ value }) => {
+        if (Math.floor(value) && typeof value == "number")
+            return Math.floor(value);
+        else
+            throw { status: 400, message: "Los datos del Responsable no cumple con los párametros establecidos" };
+    }, { toClassOnly: true }),
     __metadata("design:type", Number)
 ], bodegas.prototype, "responsableID", void 0);
 __decorate([
     Expose({ name: 'estado' }),
-    Transform(({ value }) => parseInt(value), { toClassOnly: true }),
+    Transform(({ value }) => {
+        if (Math.floor(value) && typeof value == "number")
+            return Math.floor(value);
+        else
+            throw { status: 400, message: "Los datos del estado no cumple con los párametros establecidos" };
+    }, { toClassOnly: true }),
     __metadata("design:type", Number)
 ], bodegas.prototype, "estado_user", void 0);
 __decorate([
     Expose({ name: 'created_by' }),
-    Transform(({ value }) => parseInt(value), { toClassOnly: true }),
+    Transform(({ value }) => {
+        if (Math.floor(value) && typeof value == "number")
+            return Math.floor(value);
+        else
+            throw { status: 400, message: "Los datos del created_by no cumple con los párametros establecidos" };
+    }, { toClassOnly: true }),
     __metadata("design:type", Number)
 ], bodegas.prototype, "createdBy", void 0);
 __decorate([
     Expose({ name: 'update_by' }),
-    Transform(({ value }) => parseInt(value), { toClassOnly: true }),
+    Transform(({ value }) => {
+        if (Math.floor(value) && typeof value == "number")
+            return Math.floor(value);
+        else
+            throw { status: 400, message: "Los datos del update_by no cumple con los párametros establecidos" };
+    }, { toClassOnly: true }),
     __metadata("design:type", Number)
 ], bodegas.prototype, "updateBy", void 0);
 __decorate([

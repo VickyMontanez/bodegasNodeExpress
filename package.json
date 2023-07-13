@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "tsc": "tsc -w",
-    "dev": "nodemon --quiet ./app.js"
+    "dev": "nodemon --quiet ./app.js",
+    "build": "webpack -p",
+    "test": "karma start"
   },
   "keywords": [],
   "author": "",
