@@ -1,29 +1,103 @@
 
 import mysql from 'mysql2';
-import dotenv from 'dotenv';
-import {Router} from 'express';
+import { Router } from 'express';
 
-dotenv.config("../");
+const inventariosStorage = Router();
+let connection;
 
-const storageInventarios = Router();
-
-
-let conx;
-const myConfig = JSON.parse(process.env.MY_CONNECT);
-
-
-storageInventarios.use((req, res, next) => {
-    try {
-        conx = mysql.createPool(myConfig);
-        next()
-    } catch (err) {
-        console.error('Error de conexion:', err.message);
-        res.status(500);
-    }   
+/* Hacer conexión con la base de datos */
+inventariosStorage.use((req, res, next) => {
+    const config = JSON.parse(process.env.MY_CONNECT)
+    connection = mysql.createPool(config);
+    next();
 });
 
+/* Obtener todos los inventarios */
+inventariosStorage.get("/", (req, res) => {
+    connection.query('SELECT * FROM `inventarios`', (err, result, fil) => {
+        res.end(JSON.stringify(result));
+    })
+});
 
-storageInventarios.post('/', (req, res) => {
+/* Obtener un inventario utilizando el id */
+inventariosStorage.get("/:id", (req, res) => {
+    const invId = req.params.id;
+
+    connection.query(
+        "SELECT * FROM inventarios WHERE id = ?",
+        [invId],
+        (err, result) => {
+            if (err) {
+                console.error("Error al obtener el inventario: ", err);
+                return res.status(500).json({ mensaje: "Error al obtener el inventario" });
+            }
+
+            /* Verifica si se encontró el inventario con el ID proporcionado */
+            if (result.length === 0) {
+                return res.status(404).json({ mensaje: "No se encontró el inventario" });
+            }
+
+            const inventario = result[0];
+            return res.json(inventario);
+        }
+    );
+});
+
+/* Añadir un Inventario */
+inventariosStorage.post("/", (req, res) => {
+    const { id, cantidad, deleted_at, id_bodega, id_producto, created_by, update_by } = req.body;
+
+    connection.query(
+        'INSERT INTO `inventarios`(id, cantidad, created_at, updated_at, deleted_at, id_bodega, id_producto, created_by, update_by) VALUES (?, ?, NOW(), NOW(), ?, ?, ?, ?, ?)',
+        [id, cantidad, deleted_at, id_bodega, id_producto, created_by, update_by],
+        (err, result, fields) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).send("Error al insertar en la base de datos");
+            } else {
+                res.end("Los datos fueron insertados con exito en la base de datos");
+            }
+        });
+});
+
+/* Actualizar un inventario por el ID */
+inventariosStorage.put("/:id", (req, res) => {
+    const invId = req.params.id;
+    const { id, cantidad, deleted_at, id_bodega, id_producto, created_by, update_by } = req.body;
+
+    connection.query(
+        "UPDATE inventarios SET id = ?, cantidad = ?, created_at = NOW(), updated_at = NOW(), deleted_at = ?, id_bodega = ?, id_producto = ?, created_by = ?, update_by = ? WHERE id = ?",
+        [id, cantidad, deleted_at, id_bodega, id_producto, created_by, update_by, invId],
+        (err, result) => {
+            if (err) {
+                console.error("Error al actualizar el inventario: ", err);
+                return res.status(500).json({ mensaje: "Error al actualizar el inventario" });
+            }
+
+            return res.json({ mensaje: "Inventario actualizada exitosamente" });
+        }
+    );
+});
+
+/* Emilinar Inventario por Id */
+inventariosStorage.delete("/:id", (req, res) => {
+    const invId = req.params.id;
+
+    connection.query(
+        "DELETE FROM inventarios WHERE id = ?",
+        [invId],
+        (err, result) => {
+            if (err) {
+                console.error("Error al eliminar el Inventario: ", err);
+                return res.status(500).json({ mensaje: "Error al eliminar el Inventario" });
+            }
+
+            return res.json({ mensaje: "Inventario eliminado exitosamente" });
+        }
+    );
+});
+
+/* inventariosStorage.post('/', (req, res) => {
     const { id_producto, id_bodega, cantidad } = req.body;
 
     try {
@@ -53,5 +127,5 @@ storageInventarios.post('/', (req, res) => {
     }
 
 })
-
-export default storageInventarios;
+ */
+export default inventariosStorage;
