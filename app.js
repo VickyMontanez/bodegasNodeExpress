@@ -9,6 +9,8 @@ import usersStorage from "./routers/users.js";
 import "reflect-metadata";
 import {plainToClass} from "class-transformer";
 import {bodegas} from "./controllerDto/bodegas.js";
+import {inventarios} from "./controllerDto/inventarios.js";
+import {users} from "./controllerDto/users.js";
 
 const appExpress = express();
 dotenv.config();
@@ -27,17 +29,21 @@ appExpress.listen(config, ()=>{
 });
 
 let json = {
-    id: 12666,
-    nombre: "vickysiitaa",
-    id_responsable: 22,
+    id: 12,
+    nombre: "aaa",
+    email: "vmontanez707@gmail.com",
+    verify_email: "vmontanez707@gmail.com",
     estado: 1,
     created_by: 3,
     update_by: 5,
+    foto: "aaaa",
+    contraseña: "aaaa",
     created_at: null,
     updated_at: null,
     deleted_at: null
+
 };
 
-let data = plainToClass(bodegas, json, {excludeExtraneousValues: true});
+let data = plainToClass(users, json, {excludeExtraneousValues: true});
 console.log(data);
 
