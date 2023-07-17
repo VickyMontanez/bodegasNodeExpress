@@ -1,6 +1,6 @@
-
 import mysql from 'mysql2';
 import { Router } from 'express';
+import proxyInventarios from '../middleware/proxyInventarios.js';
 
 const inventariosStorage = Router();
 let connection;
@@ -44,7 +44,7 @@ inventariosStorage.get("/:id", (req, res) => {
 });
 
 /* Añadir un Inventario */
-inventariosStorage.post("/", (req, res) => {
+inventariosStorage.post("/", proxyInventarios, (req, res) => {
     const { id, cantidad, deleted_at, id_bodega, id_producto, created_by, update_by } = req.body;
 
     connection.query(
@@ -61,7 +61,7 @@ inventariosStorage.post("/", (req, res) => {
 });
 
 /* Actualizar un inventario por el ID */
-inventariosStorage.put("/:id", (req, res) => {
+inventariosStorage.put("/:id", proxyInventarios, (req, res) => {
     const invId = req.params.id;
     const { id, cantidad, deleted_at, id_bodega, id_producto, created_by, update_by } = req.body;
 
@@ -97,35 +97,4 @@ inventariosStorage.delete("/:id", (req, res) => {
     );
 });
 
-/* inventariosStorage.post('/', (req, res) => {
-    const { id_producto, id_bodega, cantidad } = req.body;
-
-    try {
-        const actionSelect = 'SELECT * FROM inventarios WHERE id_producto = ? AND id_bodega = ?';
-        conx.query(actionSelect, [id_producto, id_bodega], (result) => {
-            if (result > 0) {
-                let currentCantidad = result[0].cantidad;
-                const newCantidad = currentCantidad + cantidad;
-                
-                const actionUpdate = 'UPDATE inventarios SET cantidad = ?';
-                conx.query(actionUpdate, [newCantidad, id_producto, id_bodega], (result) => {
-                    res.json(JSON.stringify(result));
-                })
-            }
-            else {
-                const actionInsert = 'INSERT INTO inventarios (id_producto, id_bodega, cantidad) VALUES (4,5, 6)';
-                conx.query(actionInsert, (result) => {
-                    res.json(JSON.stringify(result));
-                })
-            }
-        });
-        
-
-    } catch (err) {
-        console.error('Error en la consulta: ', err);
-        res.status(500);
-    }
-
-})
- */
 export default inventariosStorage;
