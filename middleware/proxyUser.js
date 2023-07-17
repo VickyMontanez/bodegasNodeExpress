@@ -2,15 +2,17 @@ import express from "express";
 import 'reflect-metadata';
 import { plainToClass } from "class-transformer";
 import {users} from '../controllerDto/users.js';
+import {validate} from "class-validator";
 
 const proxyUser = express();
-proxyUser.use((req, res, next)=>{
+proxyUser.use(async(req, res, next)=>{
     try {
         let data = plainToClass(users, req.body, {excludeExtraneousValues: true});
-        req.body = JSON.parse(JSON.stringify(data));
+        await validate(data);
+        next();
     } catch (err) {
         console.log(err);
-        res.send()
+        res.send();
     }
 })
 
