@@ -1,5 +1,6 @@
 import mysql from 'mysql2';
 import { Router } from 'express';
+import proxyHistoriales from '../middleware/proxyHistoriales.js';
 
 const historialesStorage = Router();
 let connection;
@@ -42,9 +43,8 @@ historialesStorage.get("/:id", (req, res) => {
     );
 });
 
-/* {id,cantidad,created_at,updated_at,deleted_at,id_inventario,id_bodega_destino,id_bodega_origen,created_by,update_by} */
 /* Añadir un historial */
-historialesStorage.post("/", (req, res) => {
+historialesStorage.post("/", proxyHistoriales, (req, res) => {
     const {id, cantidad, deleted_at, id_inventario, id_bodega_destino, id_bodega_origen, created_by, update_by} = req.body;
 
     connection.query(
@@ -61,7 +61,7 @@ historialesStorage.post("/", (req, res) => {
 });
 
 /* Actualizar un historial por el ID */
-historialesStorage.put("/:id", (req, res) => {
+historialesStorage.put("/:id", proxyHistoriales, (req, res) => {
     const hisId = req.params.id;
     const {id, cantidad, deleted_at, id_inventario, id_bodega_destino, id_bodega_origen, created_by, update_by} = req.body;
 
