@@ -1,5 +1,6 @@
 import mysql from "mysql2";
 import { Router } from "express";
+import proxyBodegas from '../middleware/proxyBodega.js';
 
 const bodegasStorage = Router();
 let connection;
@@ -43,7 +44,7 @@ bodegasStorage.get("/:id", (req, res) => {
 });
 
 /* Añadir una Bodega */
-bodegasStorage.post("/", (req, res) => {
+bodegasStorage.post("/", proxyBodegas, (req, res) => {
   const { id, nombre, estado, deleted_at, created_by, update_by, id_responsable } = req.body;
 
   connection.query(
@@ -60,7 +61,7 @@ bodegasStorage.post("/", (req, res) => {
 });
 
 /* Actualizar un producto por el ID */
-bodegasStorage.put("/:id", (req, res) => {
+bodegasStorage.put("/:id", proxyBodegas, (req, res) => {
   const bodegaId = req.params.id;
   const { nombre, estado, deleted_at, created_by, update_by, id_responsable } = req.body;
 
