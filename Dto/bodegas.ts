@@ -1,53 +1,58 @@
 import { Expose, Type, Transform } from 'class-transformer';
+import { IsDefined, MaxLength, IsString, IsInt, Matches, IsOptional} from "class-validator";
 
 export class bodegas {
 
     @Expose({ name: 'id' })
-    @Transform(({ value }) => {
-        if(Math.floor(value) && typeof value == "number")
-        return Math.floor(value);
-        else throw {status: 400, message: "Los datos del Id no cumple con los párametros establecidos"}}, { toClassOnly: true })
+    @IsDefined({message: ()=>{throw {status: 401, message: '¡ERROR! El parametro Id es obligatorio'}}})
+    @IsInt({message: ()=>{throw {status:401, message: '¡ERROR! El parametro Id no cumple con el tipo de dato establecido'}}})
+    @Type(()=>Number)
     ID: number;
 
     @Expose({ name: 'nombre' })
-    @Transform(({value})=>{ if(/^[A-Z][a-zA-Z '.-]*[A-Za-z][^-]\w+[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]/.test(value)) return value ; else throw {status:400, message: "Los datos del nombre no cumplen con los párametros establecidos"}})
+    @IsDefined({message: ()=>{throw {status:401, message:'¡ERROR! El parametro nombre del usuario es obligatorio'}}})
+    @IsString({message: ()=>{throw {status:401, message: '¡ERROR! El parametro nombre del usuario no cumple con el tipo de dato establecido'}}})
+    @MaxLength(50,{message: ()=>{throw {status:401, message:'¡ERROR! El parametro nombre del usuario superó el limite de carácteres'}}})
+    @Matches(/^[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+$/, {message: ()=>{throw{status:401, message:'¡ERROR! El parámetro nombre del usuario contiene caracteres no válidos'}}})
+    @Type(()=>String)
     nom_user: string;
 
     @Expose({ name: 'id_responsable' })
-    @Transform(({ value }) => {
-        if(Math.floor(value) && typeof value == "number")
-        return Math.floor(value);
-        else throw {status: 400, message: "Los datos del Responsable no cumple con los párametros establecidos"}}, { toClassOnly: true })
+    @IsDefined({message: ()=>{throw {status: 401, message: '¡ERROR! El parametro id_responsable es obligatorio'}}})
+    @IsInt({message: ()=>{throw {status:401, message: '¡ERROR! El parametro id_responsable no cumple con el tipo de dato establecido'}}})
+    @Type(()=>Number)
     responsableID: number;
 
     @Expose({ name: 'estado' })
-    @Transform(({ value }) => {
-        if(Math.floor(value) && typeof value == "number")
-        return Math.floor(value);
-        else throw {status: 400, message: "Los datos del estado no cumple con los párametros establecidos"}}, { toClassOnly: true })
+    @IsDefined({message: ()=>{throw {status: 401, message: '¡ERROR! El parametro estado es obligatorio'}}})
+    @IsInt({message: ()=>{throw {status:401, message: '¡ERROR! El parametro estado no cumple con el tipo de dato establecido'}}})
+    @Type(()=>Number)
     estado_user: number;
 
     @Expose({ name: 'created_by' })
-    @Transform(({ value }) => {
-        if(Math.floor(value) && typeof value == "number")
-        return Math.floor(value);
-        else throw {status: 400, message: "Los datos del created_by no cumple con los párametros establecidos"}}, { toClassOnly: true })
+    @IsInt({message: ()=>{throw {status:401, message: '¡ERROR! El parametro created_by no cumple con el tipo de dato establecido'}}})
+    @Type(()=>Number)
     createdBy: number;
 
     @Expose({ name: 'update_by' })
-    @Transform(({ value }) => {
-        if(Math.floor(value) && typeof value == "number")
-        return Math.floor(value);
-        else throw {status: 400, message: "Los datos del update_by no cumple con los párametros establecidos"}}, { toClassOnly: true })
+    @IsInt({message: ()=>{throw {status:401, message: '¡ERROR! El parametro created_by no cumple con el tipo de dato establecido'}}})
+    @Type(()=>Number)
     updateBy: number;
 
     @Expose({ name: 'created_at' })
+    @IsOptional()
+    @Transform(({ value }) => new Date(value))
+    @Type(() => Date)
     createdAt: Date;
 
     @Expose({ name: 'updated_at' })
+    @Transform(({ value }) => new Date(value))
+    @Type(() => Date)
     updatedAt: Date;
 
     @Expose({ name: 'deleted_at' })
+    @Transform(({ value }) => new Date(value))
+    @Type(() => Date)
     deletedAt: Date;
 
     constructor(
