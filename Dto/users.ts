@@ -1,66 +1,76 @@
 import { Expose, Type, Transform } from 'class-transformer';
+import { IsDefined, MaxLength, MinLength, IsEmail, IsString, IsInt, Matches, IsOptional} from "class-validator";
 
 export class users {
 
     @Expose({ name: 'id' })
-    @Transform(({ value }) => {
-        if(Math.floor(value) && typeof value == "number")
-        return Math.floor(value);
-        else throw {status: 400, message: "Los datos del Id no cumple con los párametros establecidos"}}, { toClassOnly: true })
+    @IsDefined({message: ()=>{throw {status: 401, message: '¡ERROR! El parametro Id es obligatorio'}}})
+    @IsInt({message: ()=>{throw {status:401, message: '¡ERROR! El parametro Id no cumple con el tipo de dato establecido'}}})
+    @Type(()=>Number)
     ID: number;
 
     @Expose({ name: 'nombre' })
-    @Transform(({value})=>{ if(/^[A-Z][a-zA-Z '.-]*[A-Za-z][^-]\w+[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]/.test(value)) return value ; else throw {status:400, message: "Los datos del nombre no cumplen con los párametros establecidos"}})
+    @IsDefined({message: ()=>{throw {status:401, message:'¡ERROR! El parametro nombre es obligatorio'}}})
+    @IsString({message: ()=>{throw {status:401, message: '¡ERROR! El parametro nombre no cumple con el tipo de dato establecido'}}})
+    @MaxLength(50,{message: ()=>{throw {status:401, message:'¡ERROR! El parametro nombre superó el limite de carácteres'}}})
+    @Matches(/^[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+$/, {message: ()=>{throw{status:401, message:'¡ERROR! El parámetro nombre contiene caracteres no válidos'}}})
+    @Type(()=>String)
     nom_com : string;
 
     @Expose({ name: 'email' })
-    @Transform(({value})=>{ if( /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value)) return value ; else throw {status:400, message: "Los datos del email no cumplen con los párametros establecidos"}})
+    @IsDefined({message: ()=>{throw {status: 401, message: '¡ERROR! El parametro email es obligatorio'}}})
+    @IsEmail({}, { message: ()=>{throw {status:401, message:'¡ERROR! El parametro email no cumple con el formato establecido'}}})
+    @Type(()=>String)
     ema: string;
 
     @Expose({ name: 'verify_email' })
-    @Transform(({value})=>{ if( /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value)) return value ; else throw {status:400, message: "Los datos del email no cumplen con los párametros establecidos"}})
+    @IsEmail({}, { message: ()=>{throw {status:401, message:'¡ERROR! El parametro email no cumple con el formato establecido'}}})
+    @Type(()=>String)
     ema_vrf: string;
 
     @Expose({ name: 'estado' })
-    @Transform(({ value }) => {
-        if(Math.floor(value) && typeof value == "number")
-        return Math.floor(value);
-        else throw {status: 400, message: "Los datos del estado no cumple con los párametros establecidos"}}, { toClassOnly: true })
+    @IsDefined({message: ()=>{throw {status: 401, message: '¡ERROR! El parametro estado es obligatorio'}}})
+    @IsInt({message: ()=>{throw {status:401, message: '¡ERROR! El parametro estado no cumple con el tipo de dato establecido'}}})
+    @Type(()=>Number)
     estado: number;
 
     @Expose({ name: 'created_by' })
-    @Transform(({ value }) => {
-        if(Math.floor(value) && typeof value == "number")
-        return Math.floor(value);
-        else throw {status: 400, message: "Los datos del created_by no cumple con los párametros establecidos"}}, { toClassOnly: true })
+    @IsInt({message: ()=>{throw {status:401, message: '¡ERROR! El parametro created_by no cumple con el tipo de dato establecido'}}})
+    @Type(()=>Number)
     createdBy: number;
 
     @Expose({ name: 'update_by' })
-    @Transform(({ value }) => {
-        if(Math.floor(value) && typeof value == "number")
-        return Math.floor(value);
-        else throw {status: 400, message: "Los datos del update_by no cumple con los párametros establecidos"}}, { toClassOnly: true })
+    @IsInt({message: ()=>{throw {status:401, message: '¡ERROR! El parametro created_by no cumple con el tipo de dato establecido'}}})
+    @Type(()=>Number)
     updateBy: number;
 
     @Expose({ name: 'foto' })
-    @Transform(({value})=>{ 
-        if( /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/.test(value)) return value ;
-        else throw {status:400, message: "Los datos de la foto no cumplen con los párametros establecidos"}})
+    @Matches(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/, {message: ()=>{throw{status:401, message:'¡ERROR! Los datos de la foto no cumplen con los párametros establecidos'}}})
+    @Type(()=>String)
     photo: string;
 
-    @Expose({ name: 'contraseña' })
-    @Transform(({value})=>{ 
-        if( /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/.test(value)) return value ;
-        else throw {status:400, message: "Los datos de la contraseña no cumplen con los párametros establecidos"}})
-    pswd: string;
+    @Expose({ name: 'password' })
+    @IsDefined({message: ()=>{throw {status:401, message:'¡ERROR! El parametro password es obligatoria'}}})
+    @MinLength(8,{message: ()=>{throw {status:401, message:'¡ERROR! El parametro password debe tener más de 8 carácteres'}}})
+    @MaxLength(12, {message: ()=>{throw {status:401, message:'¡ERROR! El parametro password superó el limite de carácteres'}}})
+    @Type(()=>String)
+    pswd: String;
 
     @Expose({ name: 'created_at' })
+    @IsOptional()
+    @Transform(({ value }) => new Date(value))
+    @Type(() => Date)
     createdAt: Date;
 
     @Expose({ name: 'updated_at' })
+    @IsOptional()
+    @Transform(({ value }) => new Date(value))
+    @Type(() => Date)
     updatedAt: Date;
 
     @Expose({ name: 'deleted_at' })
+    @Transform(({ value }) => new Date(value))
+    @Type(() => Date)
     deletedAt: Date;
 
     constructor(
