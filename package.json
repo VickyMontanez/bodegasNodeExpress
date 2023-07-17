@@ -16,6 +16,7 @@
   "devDependencies": {
     "@types/jasmine": "^4.3.5",
     "class-transformer": "0.5.1",
+    "class-validate": "0.0.1",
     "class-validator": "0.14.0",
     "dotenv": "16.3.1",
     "express": "4.18.2",
@@ -25,7 +26,7 @@
     "karma-jasmine": "^5.1.0",
     "karma-webpack": "^5.0.0",
     "mysql2": "3.4.5",
-    "node": "20.3.1",
+    "node": "18.16.1",
     "nodemon": "2.0.22",
     "reflect-metadata": "0.1.13",
     "ts-loader": "^9.4.4",
