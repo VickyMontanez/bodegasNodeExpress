@@ -1,5 +1,6 @@
 import mysql from "mysql2";
 import { Router } from "express";
+import proxyProducts from '../middleware/proxyProductos.js';
 
 const productosStorage = Router();
 let connection;
@@ -43,7 +44,7 @@ productosStorage.get("/:id", (req, res) => {
 });
 
 /* Añadir un producto */
-productosStorage.post('/', (req, res) => {
+productosStorage.post('/', proxyProducts, (req, res) => {
     let myData = req.body;
     let data = Object.values(myData);
 
@@ -80,7 +81,7 @@ productosStorage.post('/', (req, res) => {
 });
 
 /* Actualizar un producto por el ID */
-productosStorage.put("/:id", (req, res) => {
+productosStorage.put("/:id", proxyProducts, (req, res) => {
     const productId = req.params.id;
     const { nombre, descripcion, estado, created_at, updated_at, deleted_at, created_by, update_by, } = req.body;
 
