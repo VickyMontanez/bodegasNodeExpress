@@ -12,38 +12,14 @@ usersStorage.use((req, res, next) => {
     next();
 });
 
-usersStorage.get("/:id?", proxyUser,(req, res)=>{
-    const {id} = req.params;
-    let query = '';
-    if (id){
-        query = `SELECT * FROM users WHERE id = ${connection.escape.id} `
-    }else{
-        query = 'SELECT * FROM `users`'
-    }
-
-    connection.query(query,
-        (err, result) => {
-            if (err) {
-                console.error("Error al obtener el User: ", err);
-                return res.status(500).json({ mensaje: "Error al obtener el User" });
-            }
-            if (result.length === 0) {
-                return res.status(404).json({ mensaje: "No se encontró el User" });
-            }
-
-            const User = result[0];
-            return res.json(User);
-        }
-    );
-});
-
-/* usersStorage.get("/", (req, res) => {
+/* Endpoint para obtener todos los usuarios */
+usersStorage.get("/", (req, res) => {
     connection.query('SELECT * FROM `users`', (err, result, fil) => {
         res.end(JSON.stringify(result));
     })
 });
 
-
+/* Endpoint para obtener un usuario */
 usersStorage.get("/:id", (req, res) => {
     const userId = req.params.id;
 
@@ -65,11 +41,10 @@ usersStorage.get("/:id", (req, res) => {
             return res.json(User);
         }
     );
-}); */
+});
 
-/* , */
 /* Añadir un User */
-usersStorage.post("/", (req, res) => {
+usersStorage.post("/", proxyUser, (req, res) => {
     const { id, nombre, email, email_verified_at, estado, created_by, update_by, foto, password, deleted_at} = req.body;
 
     connection.query(
@@ -86,7 +61,7 @@ usersStorage.post("/", (req, res) => {
 });
 
 /* Actualizar un User por el ID */
-usersStorage.put("/:id", (req, res) => {
+usersStorage.put("/:id", proxyUser, (req, res) => {
     const userId = req.params.id;
     const {id, nombre, email, email_verified_at, estado, created_by, update_by, foto, password, deleted_at} = req.body;
 
