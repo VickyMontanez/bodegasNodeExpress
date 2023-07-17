@@ -7,7 +7,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Expose, Transform } from 'class-transformer';
+import { Expose, Type, Transform } from 'class-transformer';
+import { IsDefined, IsInt, IsOptional } from "class-validator";
 export class inventarios {
     constructor(ID, cantidad, bodega, producto, createdBy, updateBy, createdAt, updatedAt, deletedAt) {
         this.ID = ID;
@@ -23,73 +24,60 @@ export class inventarios {
 }
 __decorate([
     Expose({ name: 'id' }),
-    Transform(({ value }) => {
-        if (Math.floor(value) && typeof value == "number")
-            return Math.floor(value);
-        else
-            throw { status: 400, message: "Los datos del Id no cumple con los párametros establecidos" };
-    }, { toClassOnly: true }),
+    IsDefined({ message: () => { throw { status: 401, message: '¡ERROR! El parametro Id es obligatorio' }; } }),
+    IsInt({ message: () => { throw { status: 401, message: '¡ERROR! El parametro Id no cumple con el tipo de dato establecido' }; } }),
+    Type(() => Number),
     __metadata("design:type", Number)
 ], inventarios.prototype, "ID", void 0);
 __decorate([
     Expose({ name: 'cantidad' }),
-    Transform(({ value }) => {
-        if (Math.floor(value) && typeof value == "number")
-            return Math.floor(value);
-        else
-            throw { status: 400, message: "Los datos de la cantidad no cumple con los párametros establecidos" };
-    }, { toClassOnly: true }),
+    IsDefined({ message: () => { throw { status: 401, message: '¡ERROR! El parametro cantidad es obligatorio' }; } }),
+    IsInt({ message: () => { throw { status: 401, message: '¡ERROR! El parametro cantidad no cumple con el tipo de dato establecido' }; } }),
+    Type(() => Number),
     __metadata("design:type", Number)
 ], inventarios.prototype, "cantidad", void 0);
 __decorate([
     Expose({ name: 'bodega' }),
-    Transform(({ value }) => {
-        if (Math.floor(value) && typeof value == "number")
-            return Math.floor(value);
-        else
-            throw { status: 400, message: "Los datos de la bodega no cumple con los párametros establecidos" };
-    }, { toClassOnly: true }),
+    IsDefined({ message: () => { throw { status: 401, message: '¡ERROR! El parametro bodega es obligatorio' }; } }),
+    IsInt({ message: () => { throw { status: 401, message: '¡ERROR! El parametro bodega no cumple con el tipo de dato establecido' }; } }),
+    Type(() => Number),
     __metadata("design:type", Number)
 ], inventarios.prototype, "id_bodega", void 0);
 __decorate([
     Expose({ name: 'producto' }),
-    Transform(({ value }) => {
-        if (Math.floor(value) && typeof value == "number")
-            return Math.floor(value);
-        else
-            throw { status: 400, message: "Los datos del producto no cumple con los párametros establecidos" };
-    }, { toClassOnly: true }),
+    IsDefined({ message: () => { throw { status: 401, message: '¡ERROR! El parametro producto es obligatorio' }; } }),
+    IsInt({ message: () => { throw { status: 401, message: '¡ERROR! El parametro producto no cumple con el tipo de dato establecido' }; } }),
+    Type(() => Number),
     __metadata("design:type", Number)
 ], inventarios.prototype, "id_producto", void 0);
 __decorate([
     Expose({ name: 'created_by' }),
-    Transform(({ value }) => {
-        if (Math.floor(value) && typeof value == "number")
-            return Math.floor(value);
-        else
-            throw { status: 400, message: "Los datos del created_by no cumple con los párametros establecidos" };
-    }, { toClassOnly: true }),
+    IsInt({ message: () => { throw { status: 401, message: '¡ERROR! El parametro created_by no cumple con el tipo de dato establecido' }; } }),
+    Type(() => Number),
     __metadata("design:type", Number)
 ], inventarios.prototype, "createdBy", void 0);
 __decorate([
     Expose({ name: 'update_by' }),
-    Transform(({ value }) => {
-        if (Math.floor(value) && typeof value == "number")
-            return Math.floor(value);
-        else
-            throw { status: 400, message: "Los datos del update_by no cumple con los párametros establecidos" };
-    }, { toClassOnly: true }),
+    IsInt({ message: () => { throw { status: 401, message: '¡ERROR! El parametro created_by no cumple con el tipo de dato establecido' }; } }),
+    Type(() => Number),
     __metadata("design:type", Number)
 ], inventarios.prototype, "updateBy", void 0);
 __decorate([
     Expose({ name: 'created_at' }),
+    IsOptional(),
+    Transform(({ value }) => new Date(value)),
+    Type(() => Date),
     __metadata("design:type", Date)
 ], inventarios.prototype, "createdAt", void 0);
 __decorate([
     Expose({ name: 'updated_at' }),
+    Transform(({ value }) => new Date(value)),
+    Type(() => Date),
     __metadata("design:type", Date)
 ], inventarios.prototype, "updatedAt", void 0);
 __decorate([
     Expose({ name: 'deleted_at' }),
+    Transform(({ value }) => new Date(value)),
+    Type(() => Date),
     __metadata("design:type", Date)
 ], inventarios.prototype, "deletedAt", void 0);
