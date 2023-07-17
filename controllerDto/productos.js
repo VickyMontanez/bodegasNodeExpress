@@ -7,17 +7,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Expose, Transform } from 'class-transformer';
+import { Expose, Type, Transform } from 'class-transformer';
+import { IsDefined, MaxLength, IsString, IsInt, Matches, IsOptional } from "class-validator";
 export class productos {
-    constructor(ID, nom_prd, desp, estado, createdBy, updateBy, photo, pswd, createdAt, updatedAt, deletedAt) {
+    constructor(ID, nom_prd, desp, estado, createdBy, updateBy, createdAt, updatedAt, deletedAt) {
         this.ID = ID;
         this.nom_prd = nom_prd;
         this.desp = desp;
         this.estado = estado;
         this.createdBy = createdBy;
         this.updateBy = updateBy;
-        this.photo = photo;
-        this.pswd = pswd;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.deletedAt = deletedAt;
@@ -25,89 +24,63 @@ export class productos {
 }
 __decorate([
     Expose({ name: 'id' }),
-    Transform(({ value }) => {
-        if (Math.floor(value) && typeof value == "number")
-            return Math.floor(value);
-        else
-            throw { status: 400, message: "Los datos del Id no cumple con los párametros establecidos" };
-    }, { toClassOnly: true }),
+    IsDefined({ message: () => { throw { status: 401, message: '¡ERROR! El parametro Id es obligatorio' }; } }),
+    IsInt({ message: () => { throw { status: 401, message: '¡ERROR! El parametro Id no cumple con el tipo de dato establecido' }; } }),
+    Type(() => Number),
     __metadata("design:type", Number)
 ], productos.prototype, "ID", void 0);
 __decorate([
     Expose({ name: 'nombre' }),
-    Transform(({ value }) => { if (/^[A-Z][a-zA-Z '.-]*[A-Za-z][^-]\w+[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]/.test(value))
-        return value;
-    else
-        throw { status: 400, message: "Los datos del nombre del producto no cumplen con los párametros establecidos" }; }),
+    IsDefined({ message: () => { throw { status: 401, message: '¡ERROR! El parametro nombre del producto es obligatorio' }; } }),
+    IsString({ message: () => { throw { status: 401, message: '¡ERROR! El parametro nombre del producto no cumple con el tipo de dato establecido' }; } }),
+    MaxLength(50, { message: () => { throw { status: 401, message: '¡ERROR! El parametro nombre del producto superó el limite de carácteres' }; } }),
+    Matches(/^[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+$/, { message: () => { throw { status: 401, message: '¡ERROR! El parámetro nombre del producto contiene caracteres no válidos' }; } }),
+    Type(() => String),
     __metadata("design:type", String)
 ], productos.prototype, "nom_prd", void 0);
 __decorate([
     Expose({ name: 'descripcion' }),
-    Transform(({ value }) => { if (/^[a-z A-Z]+$/.test(value))
-        return value;
-    else
-        throw { status: 400, message: "Los datos de la descripción no cumplen con los párametros establecidos" }; }),
+    IsDefined({ message: () => { throw { status: 401, message: '¡ERROR! El parametro descripción del producto es obligatorio' }; } }),
+    IsString({ message: () => { throw { status: 401, message: '¡ERROR! El parametro descripción del producto no cumple con el tipo de dato establecido' }; } }),
+    Matches(/^[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+$/, { message: () => { throw { status: 401, message: '¡ERROR! El parámetro descripción del producto contiene caracteres no válidos' }; } }),
+    Type(() => String),
     __metadata("design:type", String)
 ], productos.prototype, "desp", void 0);
 __decorate([
     Expose({ name: 'estado' }),
-    Transform(({ value }) => {
-        if (Math.floor(value) && typeof value == "number")
-            return Math.floor(value);
-        else
-            throw { status: 400, message: "Los datos del estado no cumple con los párametros establecidos" };
-    }, { toClassOnly: true }),
+    IsDefined({ message: () => { throw { status: 401, message: '¡ERROR! El parametro estado es obligatorio' }; } }),
+    IsInt({ message: () => { throw { status: 401, message: '¡ERROR! El parametro estado no cumple con el tipo de dato establecido' }; } }),
+    Type(() => Number),
     __metadata("design:type", Number)
 ], productos.prototype, "estado", void 0);
 __decorate([
     Expose({ name: 'created_by' }),
-    Transform(({ value }) => {
-        if (Math.floor(value) && typeof value == "number")
-            return Math.floor(value);
-        else
-            throw { status: 400, message: "Los datos del created_by no cumple con los párametros establecidos" };
-    }, { toClassOnly: true }),
+    IsInt({ message: () => { throw { status: 401, message: '¡ERROR! El parametro created_by no cumple con el tipo de dato establecido' }; } }),
+    Type(() => Number),
     __metadata("design:type", Number)
 ], productos.prototype, "createdBy", void 0);
 __decorate([
     Expose({ name: 'update_by' }),
-    Transform(({ value }) => {
-        if (Math.floor(value) && typeof value == "number")
-            return Math.floor(value);
-        else
-            throw { status: 400, message: "Los datos del update_by no cumple con los párametros establecidos" };
-    }, { toClassOnly: true }),
+    IsInt({ message: () => { throw { status: 401, message: '¡ERROR! El parametro created_by no cumple con el tipo de dato establecido' }; } }),
+    Type(() => Number),
     __metadata("design:type", Number)
 ], productos.prototype, "updateBy", void 0);
 __decorate([
-    Expose({ name: 'foto' }),
-    Transform(({ value }) => {
-        if (/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/.test(value))
-            return value;
-        else
-            throw { status: 400, message: "Los datos de la foto no cumplen con los párametros establecidos" };
-    }),
-    __metadata("design:type", String)
-], productos.prototype, "photo", void 0);
-__decorate([
-    Expose({ name: 'contraseña' }),
-    Transform(({ value }) => {
-        if (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/.test(value))
-            return value;
-        else
-            throw { status: 400, message: "Los datos de la contraseña no cumplen con los párametros establecidos" };
-    }),
-    __metadata("design:type", String)
-], productos.prototype, "pswd", void 0);
-__decorate([
     Expose({ name: 'created_at' }),
+    IsOptional(),
+    Transform(({ value }) => new Date(value)),
+    Type(() => Date),
     __metadata("design:type", Date)
 ], productos.prototype, "createdAt", void 0);
 __decorate([
     Expose({ name: 'updated_at' }),
+    Transform(({ value }) => new Date(value)),
+    Type(() => Date),
     __metadata("design:type", Date)
 ], productos.prototype, "updatedAt", void 0);
 __decorate([
     Expose({ name: 'deleted_at' }),
+    Transform(({ value }) => new Date(value)),
+    Type(() => Date),
     __metadata("design:type", Date)
 ], productos.prototype, "deletedAt", void 0);
