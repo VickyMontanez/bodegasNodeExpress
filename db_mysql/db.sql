@@ -1,7 +1,6 @@
 -- Active: 1688557522293@@localhost@3306@db_prueba_backend_sql
 
 CREATE DATABASE db_prueba_backend_sql;
-DROP DATABASE db_prueba_backend_sql;
 USE db_prueba_backend_sql;
 
 CREATE TABLE

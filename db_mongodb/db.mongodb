@@ -1,0 +1,513 @@
+use("db_bodegas_mongo");
+db.createCollection("historiales", {
+    validator: {
+        $jsonSchema: {
+            bsonType: "object",
+            title: "Records Object Validation",
+            required: ["id","cantidad","id_bodega_origen", "id_bodega_destino", "id_inventario" ,"created_by","update_by","created_at", "updated_at", "deleted_at"],
+            properties: {
+                id: {
+                    bsonType: "int",
+                    description: "'id' must be a number and is required"
+                },
+                cantidad: {
+                    bsonType: "int",
+                    description: "'cantidad' must be a number and is required"
+                },
+                id_bodega_origen: {
+                    bsonType: "int",
+                    description: "'id_bodega_origen' must be a number and is required"
+                },
+                id_bodega_destino: {
+                    bsonType: "int",
+                    description: "'id_bodega_destino' must be a number and is required"
+                },
+                id_inventario: {
+                    bsonType: "int",
+                    description: "'id_inventario' must be a number and is required"
+                },
+                created_by: {
+                    bsonType: "int",
+                    description: "'created_by' must be a number and is required"
+                },
+                update_by: {
+                    bsonType: "int",
+                    description: "'update_by' must be a number and is required"
+                }
+            }
+        }
+    }
+});
+db.createCollection("inventarios");
+db.createCollection("bodegas");
+db.createCollection("productos");
+db.createCollection("users");
+
+db.bodegas.insertMany([
+    {
+        "id": 11,
+        "nombre": 'bodega0',
+        "id_responsable": 16,
+        "estado": 1,
+        "created_by": 16,
+        "update_by": null,
+        "created_at": '2022-06-02 15:33:48',
+        "updated_at": null,
+        "deleted_at": null
+    },
+    {
+        "id": 12,
+        "nombre": 'bodega1',
+        "id_responsable": 18,
+        "estado": 1,
+        "created_by": 18,
+        "update_by": null,
+        "created_at": '2022-06-02 15:33:48',
+        "updated_at": null,
+        "deleted_at": null
+    },
+    {
+        "id": 13,
+        "nombre": 'bodega2',
+        "id_responsable": 18,
+        "estado": 1,
+        "created_by": 18,
+        "update_by": null,
+        "created_at": '2022-06-02 15:33:48',
+        "updated_at": null,
+        "deleted_at": null
+    },
+    {
+        "id": 18,
+        "nombre": 'bodega7',
+        "id_responsable": 17,
+        "estado": 1,
+        "created_by": 17,
+        "update_by": null,
+        "created_at": '2022-06-02 15:33:48',
+        "updated_at": null,
+        "deleted_at": null
+    },
+    {
+        "id": 19,
+        "nombre": 'bodega8',
+        "id_responsable": 11,
+        "estado": 1,
+        "created_by": 11,
+        "update_by": null,
+        "created_at": '2022-06-02 15:33:48',
+        "updated_at": null,
+        "deleted_at": null
+    },
+    {
+        "id": 20,
+        "nombre": 'bodega9',
+        "id_responsable": 18,
+        "estado": 1,
+        "created_by": 18,
+        "update_by": null,
+        "created_at": '2022-06-02 15:33:48',
+        "updated_at": null,
+        "deleted_at": null
+    },
+    {
+        "id": 22,
+        "nombre": 'jsjsjss',
+        "id_responsable": 13,
+        "estado": 1,
+        "created_by": null,
+        "update_by": null,
+        "created_at": '2022-06-02 21:30:47',
+        "updated_at": '2022-06-02 21:30:47',
+        "deleted_at": null
+    },
+    {
+        "id": 23,
+        "nombre": 'leeche',
+        "id_responsable": 13,
+        "estado": 1,
+        "created_by": null,
+        "update_by": null,
+        "created_at": '2022-06-02 21:43:08',
+        "updated_at": '2022-06-02 21:43:08',
+        "deleted_at": null
+    },
+    {
+        "id": 24,
+        "nombre": 'soto1',
+        "id_responsable": 15,
+        "estado": 1,
+        "created_by": null,
+        "update_by": null,
+        "created_at": '2022-06-02 21:46:40',
+        "updated_at": '2022-06-02 21:46:40',
+        "deleted_at": null
+    },
+    {
+        "id": 25,
+        "nombre": 'soto2',
+        "id_responsable": 15,
+        "estado": 1,
+        "created_by": null,
+        "update_by": null,
+        "created_at": '2022-06-02 21:47:29',
+        "updated_at": '2022-06-02 21:47:29',
+        "deleted_at": null
+    },
+    {
+        "id": 26,
+        "nombre": 'prueba',
+        "id_responsable": 12,
+        "estado": 1,
+        "created_by": null,
+        "update_by": null,
+        "created_at": '2022-06-02 21:47:48',
+        "updated_at": '2022-06-02 21:47:48',
+        "deleted_at": null
+    },
+    {
+        "id": 27,
+        "nombre": 'fsfdf',
+        "id_responsable": 13,
+        "estado": 1,
+        "created_by": null,
+        "update_by": null,
+        "created_at": '2022-06-02 21:48:00',
+        "updated_at": '2022-06-02 21:48:00',
+        "deleted_at": null
+    },
+    {
+        "id": 28,
+        "nombre": 'sotod1',
+        "id_responsable": 15,
+        "estado": 1,
+        "created_by": null,
+        "update_by": null,
+        "created_at": '2022-06-02 21:46:40',
+        "updated_at": '2022-06-02 21:46:40',
+        "deleted_at": null
+    },
+    {
+        "id": 29,
+        "nombre": 'sotos1',
+        "id_responsable": 11,
+        "estado": 1,
+        "created_by": null,
+        "update_by": null,
+        "created_at": '2022-06-29 02:24:49',
+        "updated_at": '2022-06-29 02:24:49',
+        "deleted_at": null
+    },
+    {
+        "id": 30,
+        "nombre": 'sotos1',
+        "id_responsable": 11,
+        "estado": 1,
+        "created_by": null,
+        "update_by": null,
+        "created_at": '2022-06-29 02:24:49',
+        "updated_at": '2022-06-29 02:24:49',
+        "deleted_at": null
+    },
+    {
+        "id": 31,
+        "nombre": 'sotos1',
+        "id_responsable": 11,
+        "estado": 1,
+        "created_by": null,
+        "update_by": null,
+        "created_at": '2022-06-29 02:24:49',
+        "updated_at": '2022-06-29 02:24:49',
+        "deleted_at": null
+    },
+    {
+        "id": 32,
+        "nombre": 'sotos1',
+        "id_responsable": 11,
+        "estado": 1,
+        "created_by": null,
+        "update_by": null,
+        "created_at": '2022-06-29 02:24:49',
+        "updated_at": '2022-06-29 02:24:49',
+        "deleted_at": null
+    },
+    {
+        "id": 35,
+        "nombre": 'sotos1',
+        "id_responsable": 11,
+        "estado": 1,
+        "created_by": null,
+        "update_by": null,
+        "created_at": '2022-06-29 02:24:49',
+        "updated_at": '2022-06-29 02:24:49',
+        "deleted_at": null
+    },
+    {
+        "id": 36,
+        "nombre": 'sotos1',
+        "id_responsable": 11,
+        "estado": 1,
+        "created_by": null,
+        "update_by": null,
+        "created_at": '2022-06-29 02:24:49',
+        "updated_at": '2022-06-29 02:24:49',
+        "deleted_at": null
+    }, {
+        "id": 37,
+        "nombre": 'sotos1',
+        "id_responsable": 11,
+        "estado": 1,
+        "created_by": null,
+        "update_by": null,
+        "created_at": '2022-06-29 02:24:49',
+        "updated_at": '2022-06-29 02:24:49',
+        "deleted_at": null
+    },
+    {
+        "id": 38,
+        "nombre": 'sotos1',
+        "id_responsable": 11,
+        "estado": 1,
+        "created_by": null,
+        "update_by": null,
+        "created_at": '2022-06-29 02:24:49',
+        "updated_at": '2022-06-29 02:24:49',
+        "deleted_at": null
+    },
+    {
+        "id": 39,
+        "nombre": 'sotos1',
+        "id_responsable": 11,
+        "estado": 1,
+        "created_by": null,
+        "update_by": null,
+        "created_at": '2022-06-29 02:24:49',
+        "updated_at": '2022-06-29 02:24:49',
+        "deleted_at": null
+    },
+    {
+        "id": 40,
+        "nombre": 'sotos1',
+        "id_responsable": 11,
+        "estado": 1,
+        "created_by": null,
+        "update_by": null,
+        "created_at": '2022-06-29 02:24:49',
+        "updated_at": '2022-06-29 02:24:49',
+        "deleted_at": null
+    },
+    {
+        "id": 41,
+        "nombre": 'sotos1',
+        "id_responsable": 11,
+        "estado": 1,
+        "created_by": null,
+        "update_by": null,
+        "created_at": '2022-06-29 02:24:49',
+        "updated_at": '2022-06-29 02:24:49',
+        "deleted_at": null
+    },
+    {
+        "id": 42,
+        "nombre": 'sotos1',
+        "id_responsable": 11,
+        "estado": 1,
+        "created_by": null,
+        "update_by": null,
+        "created_at": '2022-06-29 02:24:49',
+        "updated_at": '2022-06-29 02:24:49',
+        "deleted_at": null
+    },
+    {
+        "id": 43,
+        "nombre": 'sotos1',
+        "id_responsable": 11,
+        "estado": 1,
+        "created_by": null,
+        "update_by": null,
+        "created_at": '2022-06-29 02:24:49',
+        "updated_at": '2022-06-29 02:24:49',
+        "deleted_at": null
+    },
+    {
+        "id": 44,
+        "nombre": 'sotos1',
+        "id_responsable": 11,
+        "estado": 1,
+        "created_by": null,
+        "update_by": null,
+        "created_at": '2022-06-29 02:24:49',
+        "updated_at": '2022-06-29 02:24:49',
+        "deleted_at": null
+    },
+    {
+        "id": 48,
+        "nombre": 'sotos1',
+        "id_responsable": 11,
+        "estado": 1,
+        "created_by": null,
+        "update_by": null,
+        "created_at": '2022-06-29 02:24:49',
+        "updated_at": '2022-06-29 02:24:49',
+        "deleted_at": null
+    },
+    {
+        "id": 49,
+        "nombre": 'sotos1',
+        "id_responsable": 11,
+        "estado": 1,
+        "created_by": null,
+        "update_by": null,
+        "created_at": '2022-06-29 02:24:49',
+        "updated_at": '2022-06-29 02:24:49',
+        "deleted_at": null
+    },
+    {
+        "id": 50,
+        "nombre": 'A Bodega',
+        "id_responsable": 11,
+        "estado": 1,
+        "created_by": null,
+        "update_by": null,
+        "created_at": '2023-05-25 01:02:57',
+        "updated_at": '2023-05-25 01:02:57',
+        "deleted_at": null
+    }
+]);
+
+
+db.historiales.insertMany([
+    {
+        "id": "WDSAFDSFD",
+        "cantidad": "ADSFS",
+        "id_bodega_origen": 12,
+        "id_bodega_destino": 18,
+        "id_inventario": 18,
+        "created_by": 18,
+        "update_by": 18,
+        "created_at": null,
+        "updated_at": null,
+        "deleted_at": null
+    },
+    {
+        "id": 20,
+        "cantidad": 9,
+        "id_bodega_origen": 11,
+        "id_bodega_destino": 12,
+        "id_inventario": 18,
+        "created_by": 15,
+        "update_by": 15,
+        "created_at": null,
+        "updated_at": null,
+        "deleted_at": null
+    },
+    {
+        "id": 21,
+        "cantidad": 7,
+        "id_bodega_origen": 29,
+        "id_bodega_destino": 30,
+        "id_inventario": 36,
+        "created_by": 18,
+        "update_by": 11,
+        "created_at": '2022-06-03 03:18:19',
+        "updated_at": '2022-06-03 03:18:19',
+        "deleted_at": null
+    },
+    {
+        "id": 22,
+        "cantidad": 666,
+        "id_bodega_origen": 26,
+        "id_bodega_destino": 24,
+        "id_inventario": 27,
+        "created_by": 12,
+        "update_by": 12,
+        "created_at": '2022-06-03 03:19:14',
+        "updated_at": '2022-06-03 03:19:14',
+        "deleted_at": null
+    },
+    {
+        "id": 23,
+        "cantidad": 100,
+        "id_bodega_origen": 19,
+        "id_bodega_destino": 18,
+        "id_inventario": 41,
+        "created_by": 13,
+        "update_by": 13,
+        "created_at": '2022-06-03 03:20:24',
+        "updated_at": '2022-06-03 03:20:24',
+        "deleted_at": null
+    },
+    {
+        "id": 24,
+        "cantidad": 25,
+        "id_bodega_origen": 19,
+        "id_bodega_destino": 18,
+        "id_inventario": 41,
+        "created_by": 12,
+        "update_by": 12,
+        "created_at": '2022-06-03 03:27:47',
+        "updated_at": '2022-06-03 03:27:47',
+        "deleted_at": null
+    },
+    {
+        "id": 25,
+        "cantidad": 25,
+        "id_bodega_origen": 19,
+        "id_bodega_destino": 26,
+        "id_inventario": 41,
+        "created_by": 11,
+        "update_by": 11,
+        "created_at": '2022-06-03 03:28:27',
+        "updated_at": '2022-06-03 03:28:27',
+        "deleted_at": null
+    },
+    {
+        "id": 26,
+        "cantidad": 300,
+        "id_bodega_origen": 18,
+        "id_bodega_destino": 12,
+        "id_inventario": 42,
+        "created_by": 18,
+        "update_by": 18,
+        "created_at": '2022-06-03 03:51:23',
+        "updated_at": '2022-06-03 03:51:23',
+        "deleted_at": null
+    },
+    {
+        "id": 27,
+        "cantidad": 300,
+        "id_bodega_origen": 18,
+        "id_bodega_destino": 12,
+        "id_inventario": 42,
+        "created_by": 13,
+        "update_by": 13,
+        "created_at": '2022-06-03 03:51:35',
+        "updated_at": '2022-06-03 03:51:35',
+        "deleted_at": null
+    },
+    {
+        "id": 28,
+        "cantidad": 1,
+        "id_bodega_origen": 12,
+        "id_bodega_destino": 11,
+        "id_inventario": 67,
+        "created_by": 15,
+        "update_by": 15,
+        "created_at": '2022-07-11 22:17:10',
+        "updated_at": '2022-07-11 22:17:10',
+        "deleted_at": null
+    },
+    {
+        "id": 29,
+        "cantidad": 200,
+        "id_bodega_origen": 12,
+        "id_bodega_destino": 12,
+        "id_inventario": 75,
+        "created_by": 11,
+        "update_by": 11,
+        "created_at": '2022-07-21 21:24:15',
+        "updated_at": '2022-07-21 21:24:15',
+        "deleted_at": null
+    }
+]);
+
